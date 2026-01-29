@@ -36,6 +36,34 @@ public class p5_Length_of_Loop_LL {
         return 0;
     }
 
+    public static int lengthOfLoop2(Node head) {
+
+        Node slow = head;
+        Node fast = head;
+
+        while (fast != null || fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+
+            if (slow == fast) {
+                return countLoopLength(slow);
+            }
+        }
+        return 0;
+    }
+
+    public static int countLoopLength(Node meetingPoint) {
+        Node temp = meetingPoint;
+
+        int length = 1;
+
+        while (temp.next != meetingPoint) {
+            temp = temp.next;
+            length++;
+        }
+        return length;
+    }
+
     public static void main(String[] args) {
         // Creating a sample linked list with a loop
         Node head = new Node(1);
@@ -59,6 +87,15 @@ public class p5_Length_of_Loop_LL {
         // Printing the result
         if (loopLength > 0) {
             System.out.println("Length of the loop: " + loopLength);
+        } else {
+            System.out.println("No loop found in the linked list.");
+        }
+
+        int loopLength2 = lengthOfLoop2(head);
+
+        // Printing the result
+        if (loopLength2 > 0) {
+            System.out.println("Length of the loop: " + loopLength2);
         } else {
             System.out.println("No loop found in the linked list.");
         }
