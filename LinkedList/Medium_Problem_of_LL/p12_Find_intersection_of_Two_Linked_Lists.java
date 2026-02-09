@@ -43,21 +43,72 @@ public class p12_Find_intersection_of_Two_Linked_Lists {
     // }
 
     // BETTER APPROACH
+    // static Node intersectionPresent(Node head1, Node head2) {
+    // Set<Node> st = new HashSet<>();// set to store visited nodes from the first
+    // list
+    // while (head1 != null) {
+    // st.add(head1);
+    // head1 = head1.next;
+    // }
+
+    // while (head2 != null) {
+    // if (st.contains(head2))
+    // return head2;// If node is found in set,it's the intersection point
+    // head2 = head2.next;
+    // }
+
+    // return null;// Return null if no intersection is found
+    // }
+
+    // OPTIMAL APPROACH-1
     static Node intersectionPresent(Node head1, Node head2) {
-        Set<Node> st = new HashSet<>();// set to store visited nodes from the first list
+        int diff = getDifference(head1, head2);
+
+        if (diff < 0) {
+            while (diff++ != 0)
+                head2 = head2.next;
+        } else {
+            while (diff-- != 0)
+                head1 = head1.next;
+        }
+
+        // Traverse both lists and compare node by node
         while (head1 != null) {
-            st.add(head1);
+            if (head1 == head2)
+                return head1;
+            head2 = head2.next;
             head1 = head1.next;
         }
-
-        while (head2 != null) {
-            if (st.contains(head2))
-                return head2;// If node is found in set,it's the intersection point
-            head2 = head2.next;
-        }
-
-        return null;// Return null if no intersection is found
+        return null;
     }
+
+    static int getDifference(Node head1, Node head2) {
+        int len1 = 0, len2 = 0;
+        while (head1 != null || head2 != null) {
+            if (head1 != null) {
+                len1++;
+                head1 = head1.next;
+            }
+            if (head2 != null) {
+                len2++;
+                head2 = head2.next;
+            }
+        }
+        return len1 - len2;
+    }
+
+    // OPTIMAL APPROACH-2
+    // static Node intersectionPresent(Node head1, Node head2) {
+    // Node d1 = head1;
+    // Node d2 = head2;
+
+    // while (d1 != d2) {
+    // d1 = d1 == null ? head2 : d1.next;
+    // d2 = d2 == null ? head1 : d2.next;
+    // }
+    // return d1;
+
+    // }
 
     // Utility function to print linked list
     public static void printList(Node head) {
