@@ -74,6 +74,32 @@ public class p13_Add_1_to_number_represented_by_LL {
         return head;
     }
 
+    // RECURSIVE APPROACH
+
+    static Node addOne2(Node head) {
+
+        int carry = addOneUtil(head);
+
+        if (carry != 0) {
+            Node newHead = new Node(carry);
+            newHead.next = head;
+            head = newHead;
+        }
+
+        return head;
+    }
+
+    static int addOneUtil(Node node) {
+        if (node == null)
+            return 1;
+
+        int carry = addOneUtil(node.next);
+        int sum = node.data + carry;
+        node.data = sum % 10;
+
+        return sum / 10;
+    }
+
     public static void main(String[] args) {
         Node head = null;
         LinkedList ll = new LinkedList();
@@ -86,7 +112,8 @@ public class p13_Add_1_to_number_represented_by_LL {
         System.out.print("Original Number: ");
         ll.printList(head);
 
-        head = addOne(head);
+        // head = addOne(head);
+        head = addOne2(head);
 
         System.out.print("After Adding One: ");
         ll.printList(head);
