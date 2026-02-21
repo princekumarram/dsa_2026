@@ -43,38 +43,66 @@ class LinkedList {
 
 public class p_14_Add_Two_Numbers {
 
-    static Node addTwoNumbers(Node l1, Node l2) {
+    public static Node addTwoNumbers(Node l1, Node l2) {
         // Intialize a dummy node as a new node
+        Node dummy = new Node(0);
+        Node temp = dummy;
+
+        int carry = 0;
+
+        while (l1 != null || l2 != null || carry != 0) {
+            int sum = 0;
+            if (l1 != null) {
+                sum += l1.data;
+                l1 = l1.next;
+
+            }
+            // Repeat the same process for l2 as l1
+
+            if (l2 != null) {
+                sum += l2.data;
+                l2 = l2.next;
+            }
+
+            // Carry grts added to sum in the node (carry=sum/10)
+            sum += carry;
+            carry = sum / 10;
+
+            Node node = new Node(sum % 10);
+            temp.next = node;
+            temp = temp.next;
+        }
+
+        return dummy.next;
 
     }
 
     public static void main(String[] args) {
-        Node head = null;
         LinkedList ll = new LinkedList();
-
-        // Example: {2, 4, 3}; // represents 342
-        head = ll.append(head, 2);
-        head = ll.append(head, 4);
-        head = ll.append(head, 3);
-
-        System.out.print("Original Number: ");
-        ll.printList(head);
-
-        head = null;
         LinkedList l2 = new LinkedList();
-        // Example: {5, 6, 4}; // represents 465
 
-        head = l2.append(head, 5);
-        head = l2.append(head, 6);
-        head = l2.append(head, 4);
+        Node head1 = null;
+        Node head2 = null;
 
-        System.out.print("Original Number: ");
-        l2.printList(head);
+        // 243
+        head1 = ll.append(head1, 2);
+        head1 = ll.append(head1, 4);
+        head1 = ll.append(head1, 3);
 
-        // head = addOne(head);
-        head = addTwoNumbers(ll, l2);
+        System.out.print("First Number: ");
+        ll.printList(head1);
 
-        System.out.print("After Adding One: ");
-        ll.printList(head);
+        // 564
+        head2 = l2.append(head2, 5);
+        head2 = l2.append(head2, 6);
+        head2 = l2.append(head2, 4);
+
+        System.out.print("Second Number: ");
+        l2.printList(head2);
+
+        Node result = addTwoNumbers(head1, head2);
+
+        System.out.print("Sum : ");
+        ll.printList(result);
     }
 }
