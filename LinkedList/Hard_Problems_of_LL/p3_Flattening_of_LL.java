@@ -27,6 +27,7 @@ class Node {
 
 public class p3_Flattening_of_LL {
 
+    // BRUTE FORCE
     static Node flattenLinkedList(Node head) {
         List<Integer> arr = new ArrayList<>();
 
@@ -79,6 +80,46 @@ public class p3_Flattening_of_LL {
         }
     }
 
+    // OPTIMAL SOLUTION
+    static Node merge(Node list1, Node list2) {
+        Node dummyNode = new Node(-1);
+        Node res = dummyNode;
+
+        while (list1 != null && list2 != null) {
+            if (list1.data < list2.data) {
+                res.child = list1;
+                res = list1;
+                list1 = list1.child;
+            } else {
+                res.child = list2;
+                res = list2;
+                list2 = list2.child;
+            }
+            res.next = null;
+        }
+
+        if (list1 != null)
+            res.child = list1;
+        else
+            res.child = list2;
+
+        if (dummyNode.child != null) {
+            dummyNode.child.next = null;
+        }
+
+        return dummyNode.child;
+    }
+
+    // Flatten a multi-level linked list
+
+    public static Node flattenLinkedList2(Node head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        Node mergedHead = flattenLinkedList(head.next);
+        return merge(head, mergedHead);
+    }
+
     public static void main(String[] args) {
         // Create linked list with child pointers
         Node head = new Node(5);
@@ -98,7 +139,9 @@ public class p3_Flattening_of_LL {
         System.out.println("Original linked list:");
         printOriginalLinkedList(head, 0);
 
-        Node flattened = flattenLinkedList(head);
+        // Node flattened = flattenLinkedList(head);
+        Node flattened = flattenLinkedList2(head);
+
         System.out.print("\nFlattened linked list: ");
         printLinkedList(flattened);
     }
